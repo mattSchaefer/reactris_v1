@@ -37,9 +37,8 @@ const GameTime = () => {
   return (
     <div className="timer">
       <h1>{gameTicks}</h1>
-     <div>{gameTicks}</div> 
-     <button onClick={paused ? play : pause}>
-      {paused ? "play" : "pause"}
+      <button onClick={paused ? play : pause}>
+        {paused ? "play" : "pause"}
      </button>
      {
         (!paused || displayTime > 0) &&
