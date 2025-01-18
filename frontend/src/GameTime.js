@@ -2,48 +2,55 @@ import React, { useState } from 'react';
 
 const useFrameTime = () => {
   const [frameTime, setFrameTime] = React.useState(performance.now())
+  const [tickCount, setTickCount] = React.useState(0)
   React.useEffect(() => {
     let frameId
     let tick = 600
     const frame = time => {
-      setTimeout(() => {
-        setFrameTime(time)
-        frameId = requestAnimationFrame(frame)
-      },tick)
+      setTickCount((prev) => prev+1)
+      setFrameTime(time)
+      frameId = setTimeout(() => {
+        requestAnimationFrame(frame)
+      }, tick)
     }
     requestAnimationFrame(frame)
     return () => cancelAnimationFrame(frameId)
   }, [])
-  return frameTime
+  return [frameTime, tickCount]
 }
 
 const GameTime = () => {
-
   const [startTime, setStartTime] = React.useState(0)
   const [pauseTime, setPauseTime] = React.useState(0)
   const paused = pauseTime !== undefined
-  const frameTime = useFrameTime()
-  const displayTime = paused ? pauseTime : frameTime - startTime
+  const [frameTime, tickCount] = useFrameTime()
+  const displayTime = paused ? pauseTime : (frameTime - (startTime || frameTime))
+  const gameTicks = Math.max(Math.trunc(displayTime / 600), 0)
   const pause = () => {
     setPauseTime(displayTime)
   }
   const play = () => {
     setStartTime(performance.now() - pauseTime)
     setPauseTime(undefined)
+    
   }
   return (
     <div className="timer">
-     <div>{displayTime}</div> 
+      <h1>{gameTicks}</h1>
+     <div>{gameTicks}</div> 
      <button onClick={paused ? play : pause}>
       {paused ? "play" : "pause"}
      </button>
+     {
+        (!paused || displayTime > 0) &&
+        <button onClick={() => {setStartTime(0); setPauseTime(0); }}>
+          Reset
+        </button> 
+     }
     </div>
   );
 };
-
 export default GameTime;
-
-
 
 //  const fetchMessage = async () => {
 //   try {
