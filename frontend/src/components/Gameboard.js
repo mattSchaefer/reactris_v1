@@ -6,14 +6,14 @@ const Gameboard = (props) => {
     return(
         <div className="gameBoardContainer">
             {
-                rows.map((row, rowIndex) => {
+                props.gameBoardAllotment.map((row, rowIndex) => {
                     return(
                         <div key={rowIndex} className="boardRow">
                             {
-                                cols.map((col, colIndex) => {
+                                row.map((cell, colIndex) => {
                                     return(
                                         <span className="boardCellContainer">
-                                            <BoardCell colIndex={colIndex} rowIndex={rowIndex}  onClick={() => onCellClick(rowIndex, colIndex)}  tickCount={props.tickCount} />
+                                            {cell}
                                         </span>
                                     )
                                 })

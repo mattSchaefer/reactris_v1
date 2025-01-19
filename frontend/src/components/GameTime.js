@@ -10,6 +10,12 @@ const GameTime = (props) => {
     props.setPauseTime(undefined)
     props.setPaused(false)
   }
+  const reset = () => {
+    props.setStartTime(0)
+    props.setPauseTime(0)
+    props.setTickCount(0)
+    props.setPaused(true)
+  }
   return (
     <div className="timer">
       <h1>{props.tickCount}</h1>
@@ -19,7 +25,7 @@ const GameTime = (props) => {
      </button>
      {
         (!props.paused || displayTime > 0) &&
-        <button onClick={() => {props.setStartTime(0); props.setPauseTime(0); props.setTickCount(0)}}>
+        <button onClick={reset}>
           Reset
         </button> 
      }

@@ -3,7 +3,7 @@ const useFrameTime = (TICK_LENGTH = 600) => {
   const [frameTime, setFrameTime] = useState(performance.now());
   const [tickCount, setTickCount] = useState(0);
   const [startTime, setStartTime] = useState(0);
-  const [pauseTime, setPauseTime] = useState(undefined); // `undefined` when not paused
+  const [pauseTime, setPauseTime] = useState(undefined);
   const [lastTickTime, setLastTickTime] = useState(performance.now());
   const [paused, setPaused] = useState(false);
   React.useEffect(() => {

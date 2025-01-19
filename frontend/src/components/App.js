@@ -4,13 +4,11 @@ import Game from './Game';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Reactris
-        </p>
+      <div className="App-container">
+        <div>
+        </div>
         <Game />
-      </header>
+      </div>
     </div>
   );
 }
