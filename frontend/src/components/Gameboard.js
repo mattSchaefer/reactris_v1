@@ -1,4 +1,5 @@
 import BoardCell from './BoardCell'
+
 const Gameboard = (props) => {
     const rows = props.rows, cols = props.cols
     const onCellClick = (ri,ci) =>{alert(ri,ci)}
@@ -12,7 +13,7 @@ const Gameboard = (props) => {
                                 cols.map((col, colIndex) => {
                                     return(
                                         <span className="boardCellContainer">
-                                            <BoardCell colIndex={colIndex} rowIndex={rowIndex}  onClick={() => onCellClick(rowIndex, colIndex)} />
+                                            <BoardCell colIndex={colIndex} rowIndex={rowIndex}  onClick={() => onCellClick(rowIndex, colIndex)}  tickCount={props.tickCount} />
                                         </span>
                                     )
                                 })

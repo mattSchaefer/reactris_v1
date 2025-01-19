@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from '../logo.svg';
+import '../App.css';
 import Game from './Game';
 function App() {
   return (
@@ -10,11 +10,7 @@ function App() {
           Reactris
         </p>
         <Game />
-
-
       </header>
-
-      
     </div>
   );
 }
