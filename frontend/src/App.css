@@ -73,4 +73,5 @@
   justify-content: center;
   align-items: center;
 }
-.tiny-log{font-size: 5px;}
+.tiny-log, .smallFont{font-size: 9px;}
+.boardCellContainer{display: flex;}

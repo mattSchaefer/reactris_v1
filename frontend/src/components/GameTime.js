@@ -29,6 +29,8 @@ const GameTime = (props) => {
           Reset
         </button> 
      }
+
+     <span className="smallFont">{JSON.stringify(props.pieceAllotment, null, 2, 2)}</span>
     </div>
   );
 };

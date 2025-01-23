@@ -5,11 +5,8 @@ const BoardCell = (props) => {
     const colorClass = props.color+"Cell"
     return(
         <span className={colorClass}>
-            {/* <div className="whichCellContainer">
-                <span className="tiny-log">{props.rowIndex}</span>,
-                <span className="tiny-log">{props.colIndex}</span>
-            </div> */}
-            {/* <span>{props.tickCount}</span> */}
+            
+             <span>{props.tickCount}</span> 
         </span>
     )
 }

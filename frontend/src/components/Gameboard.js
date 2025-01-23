@@ -1,8 +1,6 @@
 import BoardCell from './BoardCell'
 
 const Gameboard = (props) => {
-    const rows = props.rows, cols = props.cols
-    const onCellClick = (ri,ci) =>{alert(ri,ci)}
     return(
         <div className="gameBoardContainer">
             {

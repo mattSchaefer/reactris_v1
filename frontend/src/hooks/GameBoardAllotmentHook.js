@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import BoardCell from '../components/BoardCell'
-const useGameBoardAllotment = (rows, cols, activePieceAllotment) => {
+const useGameBoardAllotment = (rows, cols, pieceAllotment, frameTime, tickCount, startTime, pauseTime, TICK_LENGTH, lastTickTime) => {
     const [gameBoardAllotment, setGameBoardAllotment] = useState([[]])
     React.useEffect(() => {
-        const flatPiece = activePieceAllotment.flat()
-        const isActivePieceCell = (rowIndex, colIndex) => {
+        console.log("game board effect on PieceAllotment change")
+        const flatPiece = pieceAllotment.flat()
+        const isFallingPieceCell = (rowIndex, colIndex) => {
             for(let i = 0; i < flatPiece.length; i++){
-                if(flatPiece[i].props.posRow == rowIndex && flatPiece[i].props.posCol == colIndex){
+                if(flatPiece[i].posRow == rowIndex && flatPiece[i].posCol == colIndex){
                     return true
                 }
             }
@@ -16,18 +17,17 @@ const useGameBoardAllotment = (rows, cols, activePieceAllotment) => {
         for(let i = 0; i < rows; i++){
             let rowArray = []
             for(let j = 0; j < cols; j++){
-                const isActive = isActivePieceCell(i,j)
+                const isActive = isFallingPieceCell(i,j)
                 if(isActive){
-                    rowArray.push(<BoardCell rowIndex={i} colIndex={j} color={"blue"} />)
+                    rowArray.push(<BoardCell rowIndex={i} colIndex={j} color={"blue"} tickCount={tickCount} />)
                 }else{
-                    rowArray.push(<BoardCell rowIndex={i} colIndex={j} color={"gray"} />)
+                    rowArray.push(<BoardCell rowIndex={i} colIndex={j} color={"gray"} tickCount={tickCount} />)
                 }
             }
             boardArray.push(rowArray)
         }
-        console.log(boardArray)
         setGameBoardAllotment(boardArray)  
-    }, [activePieceAllotment])
-    return[gameBoardAllotment]
+    }, [pieceAllotment])
+    return[gameBoardAllotment, setGameBoardAllotment]
 }
 export {useGameBoardAllotment}
