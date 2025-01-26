@@ -6,7 +6,7 @@ import { useGameBoardAllotment } from "../hooks/GameBoardAllotmentHook"
 import logo from '../logo.svg';
 import PieceList from './pieces/PieceList'
 const Game = () => {
-    let TICK_LENGTH = 150
+    let TICK_LENGTH = 600
     let BOARD_DIMENSIONS = {rows: 15, cols: 10}
     const [pieceAllotment, setPieceAllotment, pieceList, setPieceList] = usePieceAllotment()
     const [gameBoardAllotment, setGameBoardAllotment] = useGameBoardAllotment(

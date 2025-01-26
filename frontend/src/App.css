@@ -74,6 +74,46 @@
   height: 3rem;
   display: -webkit-inline-box;
 }
+.purpleCell{
+
+  border: 2px solid white;
+  background: rgb(126, 32, 235);;
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+
+}
+.orangeCell{
+
+  border: 2px solid white;
+  background: rgb(235, 147, 32);;
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+
+}
+.yellowCell{
+
+  border: 2px solid white;
+  background: rgb(235, 232, 32);;
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+
+}
+.darkCell{
+
+  border: 2px solid white;
+  background: rgb(11, 11, 95);
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+
+}
 .gameBoardContainer{
   border: 2px solid white;
   padding: 5px;

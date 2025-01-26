@@ -57,7 +57,7 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
           progressPieceDownward()
         }else{
             markStoppedPieceGameBoardCellsOccupied()
-            checkForFullRows()
+            //checkForFullRows() //move to start of loop
             initializeNextPiece()
         }
       }
@@ -90,7 +90,6 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
           })
         })
       })
-      
     }
     const checkForFullRows = () => {
       var rows_to_break = []
@@ -122,14 +121,13 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
         }
         blank_rows.push(new_row)
       }
-      new_board = new_board.map((row, index) => {
-        if(rows_to_break.indexOf(index) < 0)
-          return row
-      }).filter((arr) => {return arr !== undefined})
-      //before adding the blank rows on the top, incriment the posRow of all the occupied pieces...
-      //do we need to rebuild the array to override the blank cell?
-      new_board = blank_rows.concat(new_board)
-       console.log(new_board)
+      new_board = blank_rows.concat(
+        new_board.map((row, index) => {
+          if(rows_to_break.indexOf(index) < 0)
+            return row
+        }).filter((arr) => {return arr !== undefined})
+      )
+      
       setGameBoardAllotment((prevValue) => {
         return new_board
       })

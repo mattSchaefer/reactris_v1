@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import BoardCell from '../components/BoardCell'
 const useGameBoardAllotment = (rows, cols, pieceAllotment, frameTime, tickCount, startTime, pauseTime, TICK_LENGTH, lastTickTime) => {
-    //const [gameBoardAllotment, setGameBoardAllotment] = useState([[]]) 
-    const boardArray2 = []
+    const boardArray = []
     for(let i = 0; i < rows; i++){
         let rowArray = []
         for(let j = 0; j < cols; j++){
@@ -10,9 +9,9 @@ const useGameBoardAllotment = (rows, cols, pieceAllotment, frameTime, tickCount,
             rowArray.push(<BoardCell rowIndex={i} colIndex={j} color={"gray"} tickCount={tickCount} active={false} occupied={false} />)
             
         }
-        boardArray2.push(rowArray)
+        boardArray.push(rowArray)
     }
-    const [gameBoardAllotment, setGameBoardAllotment] = useState(boardArray2)
+    const [gameBoardAllotment, setGameBoardAllotment] = useState(boardArray)
     React.useEffect(() => {
         //console.log("game board effect on PieceAllotment change")
         const flatPiece = pieceAllotment.flat()
