@@ -30,7 +30,8 @@ const GameTime = (props) => {
         </button> 
      }
 
-     <span className="smallFont">{JSON.stringify(props.pieceAllotment, null, 2, 2)}</span>
+     <span className="smallFont">{JSON.stringify(props.pieceAllotment, null, 2, 2)}</span>\
+     {props.pieceList}
     </div>
   );
 };

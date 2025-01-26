@@ -58,6 +58,22 @@
   height: 3rem;
   display: -webkit-inline-box;
 }
+.redCell{
+  border: 2px solid white;
+  background: rgb(224, 32, 32);;
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+}
+.greenCell{
+  border: 2px solid white;
+  background: rgb(4, 168, 26);;
+  border-radius: 4px;
+  width: 3rem;
+  height: 3rem;
+  display: -webkit-inline-box;
+}
 .gameBoardContainer{
   border: 2px solid white;
   padding: 5px;

@@ -6,7 +6,7 @@ const BoardCell = (props) => {
     return(
         <span className={colorClass}>
             
-             <span>{props.tickCount}</span> 
+             <span></span> 
         </span>
     )
 }
