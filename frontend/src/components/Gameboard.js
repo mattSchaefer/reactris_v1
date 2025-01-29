@@ -10,7 +10,7 @@ const Gameboard = (props) => {
                             {
                                 row.map((cell, colIndex) => {
                                     return(
-                                        <span className="boardCellContainer">
+                                        <span className="boardCellContainer" key={colIndex}>
                                             {cell}
                                         </span>
                                     )

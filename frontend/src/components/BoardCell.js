@@ -6,7 +6,7 @@ const BoardCell = (props) => {
     return(
         <span className={colorClass}>
             
-             <span></span> 
+             <span className="boardCellLabel">{props.rowIndex+","+props.colIndex}</span> 
         </span>
     )
 }
