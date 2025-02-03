@@ -4,15 +4,16 @@ import Piece from '../components/pieces/Piece'
 import { useFrameTime } from "../hooks/FrameTimeHook"
 import { usePieceAllotment } from "../hooks/PieceAllotmentHook"
 import { useGameBoardAllotment } from "../hooks/GameBoardAllotmentHook"
+import { rotatePiece, movePieceLeft, movePieceRight } from '../hooks/PieceMover'
 import logo from '../logo.svg';
 const Game = () => {
     let TICK_LENGTH = 600
     let BOARD_DIMENSIONS = {rows: 15, cols: 10}
     let pieces = 100
     let random_pieces = []
-    const piece_types = ["T", "J", "S", "Z", "L", "square", "bar"]
+    const PIECE_TYPES = ["T", "J", "S", "Z", "L", "square", "bar"]
     for(let i = 0; i < pieces; i++)
-        random_pieces.push(<Piece type={/*piece_types[Math.floor(Math.random() * piece_types.length)]*/"Z"} active={true} />)
+        random_pieces.push(<Piece type={PIECE_TYPES[Math.floor(Math.random() * PIECE_TYPES.length)]/*"bar"*/} active={true} />)
 
     const [pieceAllotment, setPieceAllotment, pieceList, setPieceList] = usePieceAllotment(random_pieces)
     const [gameBoardAllotment, setGameBoardAllotment] = useGameBoardAllotment(
@@ -31,7 +32,7 @@ const Game = () => {
         setPauseTime, 
         setTickCount,
         willCollideWithOccupiedCell,
-        rotatePiece
+        
     ] = useFrameTime(
         TICK_LENGTH, 
         BOARD_DIMENSIONS.rows, 
@@ -45,126 +46,41 @@ const Game = () => {
     )
     const handleKeyDown = (e) => {
         console.log(e.key)
+        var e_key = e.key
+        var e_lower = e.key.toString().toLowerCase()
         if(
-            e.key === "ArrowLeft" && 
+            e_key === "ArrowLeft" && 
             !willCollideWithOccupiedCell(pieceAllotment, "left") && 
             !willCollideWithOccupiedCell(pieceAllotment, "down") && 
             !paused
         ){
             e.preventDefault()
             setPieceAllotment((prevAllotment) =>
-            {
-                return prevAllotment.map((row) =>
-                row.map((piece) => ({
-                    ...piece,
-                    posCol: parseInt(piece.posCol) - 1,
-                }))
-                )
-            });
+                movePieceLeft(prevAllotment)
+            );
         }else if(
-            e.key === "ArrowRight"  && 
+            e_key === "ArrowRight"  && 
             !willCollideWithOccupiedCell(pieceAllotment, "right") && 
             !willCollideWithOccupiedCell(pieceAllotment, "down") && 
             !paused
-        ){
+        ){//TODO: move to pieceRotator
             e.preventDefault()
             setPieceAllotment((prevAllotment) =>
-            {
-                return prevAllotment.map((row) =>
-                row.map((piece) => ({
-                    ...piece,
-                    posCol: parseInt(piece.posCol) + 1,
-                }))
-                )
-            });
-        }else if(e.key === "f"){
-            //rotate piece right
-            let piece_copy = [...pieceAllotment].flat()
-            let center = piece_copy.filter((ele) => ele.center)[0]
-            var new_piece = []
-            if(pieceList[0].props.type == "Z"){
-                console.log(piece_copy[0])
-                if(piece_copy[0].rot == "h"){
-                    for(var i = 0; i < piece_copy.length; i++){
-                        let this_cell = piece_copy[i]
-                        if(!this_cell.center){
-                            if(this_cell.posCol > center.posCol){
-                                new_piece.push({
-                                    posCol: this_cell.posCol - 2, 
-                                    posRow: this_cell.posRow /*- 1*/, 
-                                    color: this_cell.color, 
-                                    type: this_cell.type, 
-                                    rot: "v"})
-                            }else if(this_cell.posCol < center.posCol){
-                                new_piece.push({
-                                    posCol: this_cell.posCol + 1, 
-                                    posRow: this_cell.posRow - 1, 
-                                    color: this_cell.color, 
-                                    type: this_cell.type, 
-                                    rot: "v" })
-                            }else{
-                                new_piece.push({
-                                    posCol: this_cell.posCol - 1, 
-                                    posRow: this_cell.posRow - 1, 
-                                    color: this_cell.color, 
-                                    type: this_cell.type, 
-                                    rot: "v"})
-                            }
-                        }else{//this_cell
-                            new_piece.push({
-                                posCol: this_cell.posCol, 
-                                posRow: this_cell.posRow, 
-                                color: this_cell.color, 
-                                type: this_cell.type, 
-                                rot: "v", center: true
-                            })
-                        }
-                    }
-                    setPieceAllotment((prevAllotment) => {
-                        return [new_piece]
-                    })
-                }else{
-                    for(var i = 0; i < piece_copy.length; i++){
-                        let this_cell = piece_copy[i]
-                        if(!this_cell.center){
-                            if(this_cell.posRow > center.posRow && this_cell.posCol < center.posCol){
-                                console.log("first")
-                                new_piece.push({
-                                    posCol: this_cell.posCol + 2, 
-                                    posRow: this_cell.posRow, 
-                                    color: this_cell.color, 
-                                    type: this_cell.type, 
-                                    rot: "h"})
-                            }else if(this_cell.posCol == center.posCol && this_cell.posRow < center.posRow){
-                                console.log("second")
-                                new_piece.push({
-                                    posCol: this_cell.posCol, 
-                                    posRow: this_cell.posRow + 2, 
-                                    color: this_cell.color, 
-                                    type: this_cell.type, 
-                                    rot: "h" })
-                            }else{
-                                console.log("thired")
-                               new_piece.push({posCol: this_cell.posCol , 
-                                posRow: this_cell.posRow, 
-                                color: this_cell.color, 
-                                type: this_cell.type, 
-                                rot: "h"})
-                            }
-                        }else{//this_cell
-                            new_piece.push({posCol: this_cell.posCol, 
-                                posRow: this_cell.posRow, 
-                                color: this_cell.color, 
-                                type: this_cell.type, 
-                                rot: "h", 
-                                center: true})
-                        }
-                    }
-                    setPieceAllotment((prevAllotment) => {
-                        return [new_piece]
-                    })
-                }
-            }
+                movePieceRight(prevAllotment)
+            );
+        }else if(e.key == "f" || e.key== "d"){
+            //TODO:
+            //invoke the function before setting the state...
+            //then, make a function that takes the cells of the to-be-placed piece and make sure it's not occupied
+            //if not occupied, rotatePiece
+            var dir
+            if(e_lower == "f")
+                dir = "r"
+            else
+                dir = "l"
+            if(pieceList[0].props.type == "square")
+                return
+            setPieceAllotment((prevAllotment) => rotatePiece(prevAllotment, pieceList, dir))
         }
     }
     const handleKeyUp = (e) => {
@@ -173,7 +89,7 @@ const Game = () => {
     return (
         <div className="gameContainer" onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex="0">
             <span className="gameSidePanel">
-                <img src={logo} className="App-logo" alt="logo" />
+                {/* <img src={logo} className="App-logo" alt="logo" /> */}
                 <span className="gameTimeContainer">
                     <GameTime tickLength={TICK_LENGTH}
                         frameTime={frameTime}

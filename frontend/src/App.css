@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 4rem;
+  /* flex-wrap: wrap-reverse; */
 }
 .App {
   text-align: center;

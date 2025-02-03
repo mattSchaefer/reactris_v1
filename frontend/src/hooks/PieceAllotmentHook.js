@@ -10,10 +10,10 @@ const usePieceAllotment = (/*type, tickCount, gameBoardAllotment, frameTime,*/ r
         }
         if(pieceList[0].props.type == "bar"){
             setPieceAllotment([
-                [{posRow: 0, posCol: 4, color: 'blue', type: pieceList[0].props.type}],       
-                [{posRow: 1, posCol: 4, color: 'blue', center: true, type: pieceList[0].props.type}],
-                [{posRow: 2, posCol: 4, color: 'blue', type: pieceList[0].props.type}],
-                [{posRow: 3, posCol: 4, color: 'blue', type: pieceList[0].props.type}],
+                [{posRow: 0, posCol: 4, color: 'blue', type: pieceList[0].props.type, rot: "v"}],       
+                [{posRow: 1, posCol: 4, color: 'blue', type: pieceList[0].props.type, rot: "v"}],
+                [{posRow: 2, posCol: 4, color: 'blue', center: true, type: pieceList[0].props.type, rot: "v"}],
+                [{posRow: 3, posCol: 4, color: 'blue', type: pieceList[0].props.type, rot: "v"}],
             ])
         }else if(pieceList[0].props.type == 'square'){
             setPieceAllotment([
@@ -22,9 +22,9 @@ const usePieceAllotment = (/*type, tickCount, gameBoardAllotment, frameTime,*/ r
             ])
         }else if(pieceList[0].props.type == "L"){
             setPieceAllotment([
-                [{posRow: 0, posCol: 4, color: 'green', type: pieceList[0].props.type, type: pieceList[0].props.type}],       
-                [{posRow: 1, posCol: 4, color: 'green', center: true, type: pieceList[0].props.type}],
-                [{posRow: 2, posCol: 4, color: 'green', type: pieceList[0].props.type}, {posRow: 2, posCol: 5, color: 'green', type: pieceList[0].props.type}]
+                [{posRow: 0, posCol: 4, color: 'green', type: pieceList[0].props.type, type: pieceList[0].props.type, rot: 1}],       
+                [{posRow: 1, posCol: 4, color: 'green', center: true, type: pieceList[0].props.type, rot: 1}],
+                [{posRow: 2, posCol: 4, color: 'green', type: pieceList[0].props.type, rot: 1}, {posRow: 2, posCol: 5, color: 'green', type: pieceList[0].props.type, rot: 1}]
             ])
         }else if(pieceList[0].props.type == "Z"){
             setPieceAllotment([
@@ -33,19 +33,19 @@ const usePieceAllotment = (/*type, tickCount, gameBoardAllotment, frameTime,*/ r
             ])
         }else if(pieceList[0].props.type == "S"){
             setPieceAllotment([
-                [{posRow: 0, posCol: 3, color: 'yellow', type: pieceList[0].props.type}, {posRow: 0, posCol: 4, color: 'yellow', center: true, type: pieceList[0].props.type}],
-                [{posRow: 1, posCol: 2, color: 'yellow', type: pieceList[0].props.type}, {posRow: 1, posCol: 3, color: 'yellow', type: pieceList[0].props.type}]
+                [{posRow: 0, posCol: 3, color: 'yellow', type: pieceList[0].props.type, rot: "h", center: true}, {posRow: 0, posCol: 4, color: 'yellow', type: pieceList[0].props.type, rot: "h"}],
+                [{posRow: 1, posCol: 2, color: 'yellow', type: pieceList[0].props.type, rot: "h"}, {posRow: 1, posCol: 3, color: 'yellow', type: pieceList[0].props.type, rot: "h"}]
             ])
         }else if(pieceList[0].props.type == "J"){
             setPieceAllotment([
-                [{posRow: 0, posCol: 4, color: 'orange', type: pieceList[0].props.type, }],       
-                [{posRow: 1, posCol: 4, color: 'orange', type: pieceList[0].props.type, center: true, type: pieceList[0].props.type}],
-                [{posRow: 2, posCol: 4, color: 'orange', type: pieceList[0].props.type}, {posRow: 2, posCol: 3, color: 'orange', type: pieceList[0].props.type}]
+                [{posRow: 0, posCol: 4, color: 'orange', type: pieceList[0].props.type, rot: 1}],       
+                [{posRow: 1, posCol: 4, color: 'orange', type: pieceList[0].props.type, center: true, type: pieceList[0].props.type, rot: 1}],
+                [{posRow: 2, posCol: 4, color: 'orange', type: pieceList[0].props.type, rot: 1}, {posRow: 2, posCol: 3, color: 'orange', type: pieceList[0].props.type, rot: 1}]
             ])
         }else if(pieceList[0].props.type == "T"){
             setPieceAllotment([
-                [{posRow: 0, posCol: 4, color: 'dark', type: pieceList[0].props.type}],       
-                [{posRow: 1, posCol: 3, color: 'dark', center: true, type: pieceList[0].props.type}, {posRow: 1, posCol: 4, color: 'dark', type: pieceList[0].props.type}, {posRow: 1, posCol: 5, color: 'dark', type: pieceList[0].props.type}]
+                [{posRow: 0, posCol: 4, color: 'dark', type: pieceList[0].props.type, rot: 1}],       
+                [{posRow: 1, posCol: 3, color: 'dark',  type: pieceList[0].props.type, rot: 1}, {posRow: 1, center: true, rot: 1, posCol: 4, color: 'dark', type: pieceList[0].props.type}, {posRow: 1, rot: 1, posCol: 5, color: 'dark', type: pieceList[0].props.type}]
             ])
         }
     }, [pieceList])

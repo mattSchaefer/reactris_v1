@@ -38,35 +38,6 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
     }
     return collision_flag
   }
-  const rotatePiece = (type, direction) => {
-    console.log(type)
-    let piece_copy = [...pieceAllotment].flat()
-    let center = piece_copy.filter((ele) => ele.center)
-    if(type == "Z"){
-      for(var i = 0; i < piece_copy.length; i++){
-        let this_piece = piece_copy[i]
-        if(this_piece.posCol <= center.posCol){
-          this_piece = {...this_piece, posCol: this_piece.posCol - 1, posRow: this_piece.posRow - 1}
-        }else{
-          this_piece = {...this_piece, posCol: this_piece.posCol + 1, posRow: this_piece.posRow - 1}
-        }
-        piece_copy = [...piece_copy, this_piece]
-      }
-      setPieceAllotment((prevAllotment) => {
-        return piece_copy
-      })
-      
-      // setPieceAllotment((prevAllotment) =>
-      //   {
-      //       return prevAllotment.map((row) =>
-      //       row.map((piece) => ({
-      //           ...piece,
-      //           posCol: parseInt(piece.posCol) - 1,
-      //       }))
-      //       )
-      //   });
-    }
-  }
   React.useEffect(() => {
     let animationFrameId;
     const frame = (currentTime) => {
@@ -183,7 +154,6 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
     setPauseTime,
     setTickCount,
     willCollideWithOccupiedCell,
-    rotatePiece,
   ];
 };
 export {useFrameTime}
