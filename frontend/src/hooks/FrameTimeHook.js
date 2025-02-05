@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BoardCell from "../components/BoardCell";
+import { progressPieceDownward } from "./PieceMover";
 //TICK_LENGTH, pieceAllotment, setPieceAllotment, setGameBoardAllotment)
 const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, pieceAllotment, setPieceAllotment, setGameBoardAllotment, gameBoardAllotment, pieceList, setPieceList) => {
   const [frameTime, setFrameTime] = useState(performance.now());
@@ -8,6 +9,7 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
   const [pauseTime, setPauseTime] = useState(undefined);
   const [lastTickTime, setLastTickTime] = useState(performance.now());
   const [paused, setPaused] = useState(false);
+  const [tickLength, setTickLength] = useState(TICK_LENGTH)
   const willCollideWithOccupiedCell = (piece, whichCase) => {
     const flatPiece = piece.flat()
     let collision_flag = false
@@ -27,9 +29,16 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
         })
         break
       case "down":
-      default:
         flatPiece.forEach((pieceCell) => {
           if(pieceCell.posRow  + 1 >= BOARD_ROWS || gameBoardAllotment[pieceCell.posRow + 1][pieceCell.posCol].props.occupied){
+            //(flatPiece)
+            collision_flag = true
+          }
+        })
+        break
+      default:
+        flatPiece.forEach((pieceCell) => {
+          if(pieceCell.posRow >= BOARD_ROWS || pieceCell.posCol >= BOARD_COLS || pieceCell.posCol < 0 ||  gameBoardAllotment[pieceCell.posRow + 1][pieceCell.posCol].props.occupied){
             //(flatPiece)
             collision_flag = true
           }
@@ -49,12 +58,13 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
       setFrameTime(currentTime);
       const elapsedSinceStart = currentTime - startTime;
       const elapsedSinceLastTick = currentTime - lastTickTime;
-      if (elapsedSinceLastTick >= TICK_LENGTH) {
+      if (elapsedSinceLastTick >= tickLength/*TICK_LENGTH*/) {
         checkForFullRows()
         setTickCount((prevCount) => prevCount + 1)
         setLastTickTime(currentTime)
         if(!willCollideWithOccupiedCell(pieceAllotment, "down")){
-          progressPieceDownward()
+
+          setPieceAllotmentDownward()
         }else{
             markStoppedPieceGameBoardCellsOccupied()
             //checkForFullRows() //move to start of loop
@@ -63,18 +73,13 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
       }
       animationFrameId = requestAnimationFrame(frame);
     };
-    const progressPieceDownward = () => {
-      setPieceAllotment((prevAllotment) =>
-        {
-          return prevAllotment.map((row) =>
-            row.map((piece) => ({
-              ...piece,
-              posRow: parseInt(piece.posRow) + 1, // Update posRow
-            }))
-          )
-        }
-      );
+
+    const setPieceAllotmentDownward = () => {
+      setPieceAllotment((prevAllotment) => {
+        return progressPieceDownward(prevAllotment)
+      })
     }
+   
     const markStoppedPieceGameBoardCellsOccupied = () => {
       //console.log("marking stopped piece cells as occupied")
       const flatPiece = pieceAllotment.flat()
@@ -154,6 +159,24 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
     setPauseTime,
     setTickCount,
     willCollideWithOccupiedCell,
+    tickLength, setTickLength
   ];
 };
 export {useFrameTime}
+
+
+
+
+//moved to piecemover
+ // const progressPieceDownward = () => {
+    //   setPieceAllotment((prevAllotment) =>
+    //     {
+    //       return prevAllotment.map((row) =>
+    //         row.map((piece) => ({
+    //           ...piece,
+    //           posRow: parseInt(piece.posRow) + 1, // Update posRow
+    //         }))
+    //       )
+    //     }
+    //   );
+    // }

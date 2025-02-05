@@ -4,7 +4,7 @@ import Piece from '../components/pieces/Piece'
 import { useFrameTime } from "../hooks/FrameTimeHook"
 import { usePieceAllotment } from "../hooks/PieceAllotmentHook"
 import { useGameBoardAllotment } from "../hooks/GameBoardAllotmentHook"
-import { rotatePiece, movePieceLeft, movePieceRight } from '../hooks/PieceMover'
+import { rotatePiece, movePieceLeft, movePieceRight, progressPieceDownward } from '../hooks/PieceMover'
 import logo from '../logo.svg';
 const Game = () => {
     let TICK_LENGTH = 600
@@ -32,7 +32,8 @@ const Game = () => {
         setPauseTime, 
         setTickCount,
         willCollideWithOccupiedCell,
-        
+        tickLength,
+        setTickLength
     ] = useFrameTime(
         TICK_LENGTH, 
         BOARD_DIMENSIONS.rows, 
@@ -68,6 +69,9 @@ const Game = () => {
             setPieceAllotment((prevAllotment) =>
                 movePieceRight(prevAllotment)
             );
+        }else if(e_key == "ArrowDown" && !willCollideWithOccupiedCell(pieceAllotment, "down") && !paused){
+            setPieceAllotment((prevAllotment) => progressPieceDownward(prevAllotment))
+            //setTickLength((prev) => {return 450;})
         }else if(e.key == "f" || e.key== "d"){
             //TODO:
             //invoke the function before setting the state...
@@ -80,11 +84,22 @@ const Game = () => {
                 dir = "l"
             if(pieceList[0].props.type == "square")
                 return
-            setPieceAllotment((prevAllotment) => rotatePiece(prevAllotment, pieceList, dir))
+            let rotated_piece = rotatePiece(pieceAllotment, pieceList, dir)
+            //setPieceAllotment((prevAllotment) => rotatePiece(prevAllotment, pieceList, dir))
+            if(!willCollideWithOccupiedCell(rotated_piece))
+                setPieceAllotment((prevAllotment) => rotated_piece)
         }
     }
     const handleKeyUp = (e) => {
         e.preventDefault()
+        console.log("key up")
+        console.log(e.key)
+        setTimeout(() => {
+            if(e.key == "ArrowDown" && !willCollideWithOccupiedCell(pieceAllotment, "down") && !paused){
+               // setTickLength((prev) => {return 600;})
+
+            }
+        },5)
     }
     return (
         <div className="gameContainer" onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex="0">

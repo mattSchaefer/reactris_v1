@@ -468,8 +468,21 @@ export function movePieceRight(pieceAllotment){
             posCol: parseInt(piece.posCol) + 1,
         })))
 }
+export function progressPieceDownward(pieceAllotment){
+    // setPieceAllotment((prevAllotment) =>
+    //   {
+        return pieceAllotment.map((row) =>
+          row.map((piece) => ({
+            ...piece,
+            posRow: parseInt(piece.posRow) + 1, // Update posRow
+          }))
+        )
+     // }
+   // );
+  }
+export function willCollideWithOccupiedCell(piece, whichCase){
 
-
+}
 //Z, h V1
  // for(var i = 0; i < piece_copy.length; i++){
                     //     let this_cell = piece_copy[i]
