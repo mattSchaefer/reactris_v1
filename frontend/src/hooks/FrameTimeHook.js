@@ -48,6 +48,7 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
     return collision_flag
   }
   React.useEffect(() => {
+    //shout out "Luke Miller" for blog post about using requestAnimationFrame: https://medium.com/projector-hq/writing-a-run-loop-in-javascript-react-9605f74174b
     let animationFrameId;
     const frame = (currentTime) => {
       if (pauseTime !== undefined) {
@@ -55,19 +56,19 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
         cancelAnimationFrame(animationFrameId);
         return;
       }
+      checkForFullRows()
       setFrameTime(currentTime);
       const elapsedSinceStart = currentTime - startTime;
       const elapsedSinceLastTick = currentTime - lastTickTime;
       if (elapsedSinceLastTick >= tickLength/*TICK_LENGTH*/) {
-        checkForFullRows()
+        //checkForFullRows() //~~~~~~current                                        //~~~~~~~~last placement of checkForFullRows()
         setTickCount((prevCount) => prevCount + 1)
         setLastTickTime(currentTime)
         if(!willCollideWithOccupiedCell(pieceAllotment, "down")){
-
           setPieceAllotmentDownward()
         }else{
             markStoppedPieceGameBoardCellsOccupied()
-            //checkForFullRows() //move to start of loop
+            //checkForFullRows() //move to start of loop //V0
             initializeNextPiece()
         }
       }
@@ -75,6 +76,7 @@ const useFrameTime = (TICK_LENGTH = 600, BOARD_ROWS = 15, BOARD_COLS = 10, piece
     };
 
     const setPieceAllotmentDownward = () => {
+      
       setPieceAllotment((prevAllotment) => {
         return progressPieceDownward(prevAllotment)
       })

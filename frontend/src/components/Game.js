@@ -1,6 +1,7 @@
 import GameTime from "./GameTime"
 import Gameboard from "./GameBoard"
 import Piece from '../components/pieces/Piece'
+import NextPiece from '../components/NextPiece'
 import { useFrameTime } from "../hooks/FrameTimeHook"
 import { usePieceAllotment } from "../hooks/PieceAllotmentHook"
 import { useGameBoardAllotment } from "../hooks/GameBoardAllotmentHook"
@@ -14,12 +15,12 @@ const Game = () => {
     const PIECE_TYPES = ["T", "J", "S", "Z", "L", "square", "bar"]
     for(let i = 0; i < pieces; i++)
         random_pieces.push(<Piece type={PIECE_TYPES[Math.floor(Math.random() * PIECE_TYPES.length)]/*"bar"*/} active={true} />)
-
-    const [pieceAllotment, setPieceAllotment, pieceList, setPieceList] = usePieceAllotment(random_pieces)
-    const [gameBoardAllotment, setGameBoardAllotment] = useGameBoardAllotment(
+    const [pieceAllotment, setPieceAllotment, pieceList, setPieceList, nextPieceAllotment, setNextPieceAllotment] = usePieceAllotment(random_pieces)
+    const [gameBoardAllotment, setGameBoardAllotment, nextPieceBoardAllotment, setNextPieceBoardAllotment] = useGameBoardAllotment(
         BOARD_DIMENSIONS.rows, 
         BOARD_DIMENSIONS.cols, 
-        pieceAllotment
+        pieceAllotment, 
+        nextPieceAllotment
     )
     const [
         frameTime, 
@@ -46,7 +47,6 @@ const Game = () => {
         setPieceList
     )
     const handleKeyDown = (e) => {
-        console.log(e.key)
         var e_key = e.key
         var e_lower = e.key.toString().toLowerCase()
         if(
@@ -64,7 +64,7 @@ const Game = () => {
             !willCollideWithOccupiedCell(pieceAllotment, "right") && 
             !willCollideWithOccupiedCell(pieceAllotment, "down") && 
             !paused
-        ){//TODO: move to pieceRotator
+        ){
             e.preventDefault()
             setPieceAllotment((prevAllotment) =>
                 movePieceRight(prevAllotment)
@@ -73,10 +73,6 @@ const Game = () => {
             setPieceAllotment((prevAllotment) => progressPieceDownward(prevAllotment))
             //setTickLength((prev) => {return 450;})
         }else if(e.key == "f" || e.key== "d"){
-            //TODO:
-            //invoke the function before setting the state...
-            //then, make a function that takes the cells of the to-be-placed piece and make sure it's not occupied
-            //if not occupied, rotatePiece
             var dir
             if(e_lower == "f")
                 dir = "r"
@@ -126,6 +122,9 @@ const Game = () => {
                 <Gameboard  tickCount={tickCount} pieceAllotment={pieceAllotment} 
                 setPieceAllotment={setPieceAllotment} gameBoardAllotment={gameBoardAllotment} 
                 startTime={startTime} pauseTime={pauseTime} />
+            </span>
+            <span className="nextPieceContainer">
+                <NextPiece pieceList={pieceList} nextPieceAllotment={nextPieceAllotment} nextPieceBoardAllotment={nextPieceBoardAllotment}/>
             </span>
         </div>
     )
